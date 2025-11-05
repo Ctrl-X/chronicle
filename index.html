@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronicle - Prediction Tracker</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* bg-gray-900 */
+        }
+        /* Custom scrollbar for timeline */
+        #timeline-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        #timeline-container::-webkit-scrollbar-track {
+            background: #1F2937; /* bg-gray-800 */
+            border-radius: 10px;
+        }
+        #timeline-container::-webkit-scrollbar-thumb {
+            background: #4B5563; /* bg-gray-600 */
+            border-radius: 10px;
+        }
+        #timeline-container::-webkit-scrollbar-thumb:hover {
+            background: #6B7280; /* bg-gray-500 */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen p-4 md:p-8">
+
+    <div class="container mx-auto max-w-7xl">
+        
+        <!-- Header -->
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold text-indigo-400">Chronicle</h1>
+            <p class="text-lg text-gray-300">Track what people say. See who was right.</p>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="md:grid md:grid-cols-3 md:gap-8">
+
+            <!-- Column 1: Controls (Submission & Filters) -->
+            <div class="md:col-span-1 space-y-8 mb-8 md:mb-0">
+                
+                <!-- Submission Form -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-semibold mb-4">Make a Prediction</h2>
+                    <form id="prediction-form" class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-300">Your Name</label>
+                            <input type="text" id="name" name="name" required class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        
+                        <div>
+                            <label for="prediction-text" class="block text-sm font-medium text-gray-300">Prediction</label>
+                            <textarea id="prediction-text" name="prediction-text" rows="4" required class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label for="link" class="block text-sm font-medium text-gray-300">Link / Source (Optional)</label>
+                            <input type="url" id="link" name="link" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500" placeholder="https://...">
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="location" class="block text-sm font-medium text-gray-300">Location (Optional)</label>
+                                <input type="text" id="location" name="location" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label for="date" class="block text-sm font-medium text-gray-300">Prediction Date</label>
+                                <input type="date" id="date" name="date" required class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="category" class="block text-sm font-medium text-gray-300">Category</label>
+                            <select id="category" name="category" required class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
+                                <option>Science</option>
+                                <option>Environment</option>
+                                <option>Politics</option>
+                                <option>Technology</option>
+                                <option>Finance</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" id="submit-button" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200 ease-in-out">
+                            Submit Prediction
+                        </button>
+                        
+                        <div id="form-message" class="text-sm text-center mt-2"></div>
+                    </form>
+                </div>
+
+                <!-- Filter Section -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-semibold mb-4">Filter Timeline</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="filter-name" class="block text-sm font-medium text-gray-300">Filter by Name</label>
+                            <input type="text" id="filter-name" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter exact name...">
+                        </div>
+                        <div>
+                            <label for="filter-location" class="block text-sm font-medium text-gray-300">Filter by Location</label>
+                            <input type="text" id="filter-location" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter exact location...">
+                        </div>
+                        <div>
+                            <label for="filter-category" class="block text-sm font-medium text-gray-300">Filter by Category</label>
+                            <select id="filter-category" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="all">All Categories</option>
+                                <option>Science</option>
+                                <option>Environment</option>
+                                <option>Politics</option>
+                                <option>Technology</option>
+                                <option>Finance</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button id="reset-button" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200 ease-in-out">
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Column 2: Timeline -->
+            <div class="md:col-span-2">
+                <h2 class="text-2xl font-semibold mb-4">Prediction Timeline</h2>
+                
+                <div id="timeline-loading" class="text-center text-gray-400">
+                    <p>Loading predictions...</p>
+                </div>
+
+                <!-- Timeline Container -->
+                <div id="timeline-container" class="space-y-6 max-h-[80vh] overflow-y-auto pr-2">
+                    <!-- Predictions will be dynamically inserted here -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Firebase and App Logic -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            signInAnonymously, 
+            signInWithCustomToken, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            query, 
+            where, 
+            onSnapshot,
+            setLogLevel
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Configuration ---
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db, auth, userId;
+        let predictionsColRef;
+        let unsubscribeTimeline = null; // To store the onSnapshot listener
+
+        // --- DOM Elements ---
+        const predictionForm = document.getElementById('prediction-form');
+        const submitButton = document.getElementById('submit-button');
+        const formMessage = document.getElementById('form-message');
+        const timelineContainer = document.getElementById('timeline-container');
+        const timelineLoading = document.getElementById('timeline-loading');
+        
+        const filterName = document.getElementById('filter-name');
+        const filterLocation = document.getElementById('filter-location');
+        const filterCategory = document.getElementById('filter-category');
+        const resetButton = document.getElementById('reset-button');
+
+        // --- Initialization ---
+        try {
+            const app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            setLogLevel('Debug');
+
+            // --- Firestore Collection Reference ---
+            // Using a public path so all users share the same prediction list
+            const predictionsCollectionPath = `/artifacts/${appId}/public/data/predictions`;
+            predictionsColRef = collection(db, predictionsCollectionPath);
+
+            // --- Authentication ---
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    console.log("User is authenticated:", user.uid);
+                    userId = user.uid;
+                    // User is signed in, now we can load data.
+                    setupTimelineListener(); 
+                } else {
+                    console.log("User is not authenticated, attempting sign-in...");
+                    try {
+                        if (initialAuthToken) {
+                            await signInWithCustomToken(auth, initialAuthToken);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                        // The onAuthStateChanged listener will fire again once signed in.
+                    } catch (error) {
+                        console.error("Error signing in:", error);
+                        timelineLoading.innerText = "Error authenticating. Please refresh.";
+                    }
+                }
+            });
+
+        } catch (error) {
+            console.error("Error initializing Firebase:", error);
+            timelineLoading.innerText = "Error connecting to the database.";
+        }
+
+        // --- Form Submission ---
+        predictionForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!userId) {
+                formMessage.textContent = "Please wait, authenticating...";
+                formMessage.className = "text-yellow-400";
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = "Submitting...";
+            
+            try {
+                const formData = new FormData(predictionForm);
+                const newPrediction = {
+                    name: formData.get('name'),
+                    text: formData.get('prediction-text'),
+                    link: formData.get('link') || '',
+                    location: formData.get('location') || '',
+                    date: formData.get('date'),
+                    category: formData.get('category'),
+                    submitterId: userId,
+                    submittedAt: new Date().toISOString() // Use client time for sorting
+                };
+
+                // Add new document to Firestore
+                await addDoc(predictionsColRef, newPrediction);
+
+                formMessage.textContent = "Prediction submitted successfully!";
+                formMessage.className = "text-green-400";
+                predictionForm.reset();
+
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                formMessage.textContent = "Error submitting prediction.";
+                formMessage.className = "text-red-400";
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = "Submit Prediction";
+                setTimeout(() => formMessage.textContent = "", 3000);
+            }
+        });
+
+        // --- Real-time Timeline & Filtering ---
+
+        /**
+         * Sets up the real-time onSnapshot listener based on current filters.
+         */
+        function setupTimelineListener() {
+            if (!predictionsColRef) return;
+
+            // Unsubscribe from any previous listener
+            if (unsubscribeTimeline) {
+                unsubscribeTimeline();
+            }
+
+            timelineLoading.style.display = 'block';
+
+            // Get current filter values
+            const nameVal = filterName.value.trim();
+            const locationVal = filterLocation.value.trim();
+            const categoryVal = filterCategory.value;
+
+            // Build the query
+            let q = query(predictionsColRef);
+            if (nameVal) {
+                q = query(q, where("name", "==", nameVal));
+            }
+            if (locationVal) {
+                q = query(q, where("location", "==", locationVal));
+            }
+            if (categoryVal && categoryVal !== 'all') {
+                q = query(q, where("category", "==", categoryVal));
+            }
+            // Note: Firestore requires composite indexes for complex queries.
+            // For this app, we fetch based on filters and then sort in JavaScript
+            // to avoid needing to pre-define indexes.
+
+            // Attach the new listener
+            unsubscribeTimeline = onSnapshot(q, (querySnapshot) => {
+                const predictions = [];
+                querySnapshot.forEach((doc) => {
+                    predictions.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Sort by prediction date (newest first) in JavaScript
+                predictions.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                renderPredictions(predictions);
+                timelineLoading.style.display = 'none';
+
+            }, (error) => {
+                console.error("Error fetching timeline: ", error);
+                timelineLoading.innerText = "Error loading timeline.";
+                timelineLoading.style.display = 'block';
+            });
+        }
+
+        /**
+         * Renders the array of predictions to the DOM.
+         */
+        function renderPredictions(predictions) {
+            timelineContainer.innerHTML = ''; // Clear existing timeline
+            
+            if (predictions.length === 0) {
+                timelineContainer.innerHTML = `<p class="text-gray-400 text-center">No predictions found matching your filters.</p>`;
+                return;
+            }
+
+            predictions.forEach(pred => {
+                const card = createPredictionCard(pred);
+                timelineContainer.appendChild(card);
+            });
+        }
+
+        /**
+         * Helper function to create a single prediction card element.
+         */
+        function createPredictionCard(pred) {
+            const card = document.createElement('div');
+            card.className = 'bg-gray-800 p-5 rounded-lg shadow-lg animate-fade-in';
+
+            const categoryColor = getCategoryColor(pred.category);
+
+            card.innerHTML = `
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-xl font-semibold text-white">${pred.name}</h3>
+                    <span class="text-xs font-medium px-3 py-1 rounded-full ${categoryColor}">
+                        ${pred.category}
+                    </span>
+                </div>
+                
+                <p class="text-gray-300 text-lg my-4 leading-relaxed">${escapeHTML(pred.text)}</p>
+                
+                <div class="border-t border-gray-700 pt-3 text-sm text-gray-400">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <strong>Date of Prediction:</strong>
+                            <span>${new Date(pred.date).toLocaleDateString()}</span>
+                        </div>
+                        ${pred.location ? `
+                        <div>
+                            <strong>Location:</strong>
+                            <span>${escapeHTML(pred.location)}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    ${pred.link ? `
+                    <div class="mt-2">
+                        <strong>Source:</strong>
+                        <a href="${escapeHTML(pred.link)}" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:text-indigo-300 break-all">
+                            ${escapeHTML(pred.link)}
+                        </a>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            return card;
+        }
+
+        /**
+         * Helper to get a Tailwind color class for a category.
+         */
+        function getCategoryColor(category) {
+            switch (category) {
+                case 'Science': return 'bg-blue-600 text-blue-100';
+                case 'Environment': return 'bg-green-600 text-green-100';
+                case 'Politics': return 'bg-red-600 text-red-100';
+                case 'Technology': return 'bg-purple-600 text-purple-100';
+                case 'Finance': return 'bg-yellow-600 text-yellow-100';
+                default: return 'bg-gray-600 text-gray-100';
+            }
+        }
+
+        /**
+         * Helper to escape HTML to prevent XSS.
+         */
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>"']/g, function(m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[m];
+            });
+        }
+
+        // --- Filter Event Listeners ---
+        // Re-run the listener setup when any filter changes
+        filterName.addEventListener('change', setupTimelineListener);
+        filterLocation.addEventListener('change', setupTimelineListener);
+        filterCategory.addEventListener('change', setupTimelineListener);
+
+        resetButton.addEventListener('click', () => {
+            filterName.value = '';
+            filterLocation.value = '';
+            filterCategory.value = 'all';
+            setupTimelineListener();
+        });
+
+    </script>
+</body>
+</html>
