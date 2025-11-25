@@ -1,0 +1,16 @@
+{
+  "name": "chronicle-prediction-tracker",
+  "version": "1.0.0",
+  "description": "Chronicle: The Prediction Tracker",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo \"No build step required\""
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": "18"
+  }
+}

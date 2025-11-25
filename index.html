@@ -190,18 +190,10 @@
         import { getAuth, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         // Configuration Placeholders - Injected by environment or manually set
-        const firebaseConfig = {
-            apiKey: "AIzaSyAtiSRdjmLVboFJMBrnBPQJsLnJDBDWVhQ",
-            authDomain: "vertexai-testing-453514.firebaseapp.com",
-            projectId: "vertexai-testing-453514",
-            storageBucket: "vertexai-testing-453514.firebasestorage.app",
-            messagingSenderId: "1037500942362",
-            appId: "1:1037500942362:web:b97f6815ce0f0e8d6529a3",
-            measurementId: "G-Z8CFJD5QTZ"
-        };
+        import { firebaseConfig } from "./firebase-config.js";
 
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const db = getFirestore(app, "chronicle");
         const auth = getAuth(app);
 
         // Auth Handling
