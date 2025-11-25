@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,35 +10,45 @@
     <!-- Use Inter font -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827; /* bg-gray-900 */
+            background-color: #111827;
+            /* bg-gray-900 */
         }
+
         /* Custom scrollbar for timeline */
         #timeline-container::-webkit-scrollbar {
             width: 8px;
         }
+
         #timeline-container::-webkit-scrollbar-track {
-            background: #1F2937; /* bg-gray-800 */
+            background: #1F2937;
+            /* bg-gray-800 */
             border-radius: 10px;
         }
+
         #timeline-container::-webkit-scrollbar-thumb {
-            background: #4B5563; /* bg-gray-600 */
+            background: #4B5563;
+            /* bg-gray-600 */
             border-radius: 10px;
         }
+
         #timeline-container::-webkit-scrollbar-thumb:hover {
-            background: #6B7280; /* bg-gray-500 */
+            background: #6B7280;
+            /* bg-gray-500 */
         }
     </style>
 </head>
+
 <body class="bg-gray-900 text-white min-h-screen p-4 md:p-8">
 
     <div class="container mx-auto max-w-7xl">
-        
+
         <!-- Header -->
         <header class="mb-8">
             <h1 class="text-4xl font-bold text-indigo-400">Chronicle</h1>
-            <p class="text-lg text-gray-300">Track what people say. See who was right.</p>
+            <p class="text-lg text-gray-300">Track what people say. See who was right :)</p>
         </header>
 
         <!-- Main Content Grid -->
@@ -45,40 +56,51 @@
 
             <!-- Column 1: Controls (Submission & Filters) -->
             <div class="md:col-span-1 space-y-8 mb-8 md:mb-0">
-                
+
                 <!-- Submission Form -->
                 <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
                     <h2 class="text-2xl font-semibold mb-4">Make a Prediction</h2>
                     <form id="prediction-form" class="space-y-4">
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-300">Your Name</label>
-                            <input type="text" id="name" name="name" required class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
+                            <input type="text" id="name" name="name" required
+                                class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
-                        
+
                         <div>
-                            <label for="prediction-text" class="block text-sm font-medium text-gray-300">Prediction</label>
-                            <textarea id="prediction-text" name="prediction-text" rows="4" required class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                            <label for="prediction-text"
+                                class="block text-sm font-medium text-gray-300">Prediction</label>
+                            <textarea id="prediction-text" name="prediction-text" rows="4" required
+                                class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                         </div>
-                        
+
                         <div>
-                            <label for="link" class="block text-sm font-medium text-gray-300">Link / Source (Optional)</label>
-                            <input type="url" id="link" name="link" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500" placeholder="https://...">
+                            <label for="link" class="block text-sm font-medium text-gray-300">Link / Source
+                                (Optional)</label>
+                            <input type="url" id="link" name="link"
+                                class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="https://...">
                         </div>
-                        
+
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label for="location" class="block text-sm font-medium text-gray-300">Location (Optional)</label>
-                                <input type="text" id="location" name="location" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
+                                <label for="location" class="block text-sm font-medium text-gray-300">Location
+                                    (Optional)</label>
+                                <input type="text" id="location" name="location"
+                                    class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
                             </div>
                             <div>
-                                <label for="date" class="block text-sm font-medium text-gray-300">Prediction Date</label>
-                                <input type="date" id="date" name="date" required class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
+                                <label for="date" class="block text-sm font-medium text-gray-300">Prediction
+                                    Date</label>
+                                <input type="date" id="date" name="date" required
+                                    class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
                             </div>
                         </div>
 
                         <div>
                             <label for="category" class="block text-sm font-medium text-gray-300">Category</label>
-                            <select id="category" name="category" required class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
+                            <select id="category" name="category" required
+                                class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
                                 <option>Science</option>
                                 <option>Environment</option>
                                 <option>Politics</option>
@@ -87,11 +109,12 @@
                                 <option>Other</option>
                             </select>
                         </div>
-                        
-                        <button type="submit" id="submit-button" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200 ease-in-out">
+
+                        <button type="submit" id="submit-button"
+                            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200 ease-in-out">
                             Submit Prediction
                         </button>
-                        
+
                         <div id="form-message" class="text-sm text-center mt-2"></div>
                     </form>
                 </div>
@@ -101,16 +124,24 @@
                     <h2 class="text-2xl font-semibold mb-4">Filter Timeline</h2>
                     <div class="space-y-4">
                         <div>
-                            <label for="filter-name" class="block text-sm font-medium text-gray-300">Filter by Name</label>
-                            <input type="text" id="filter-name" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter exact name...">
+                            <label for="filter-name" class="block text-sm font-medium text-gray-300">Filter by
+                                Name</label>
+                            <input type="text" id="filter-name"
+                                class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="Enter exact name...">
                         </div>
                         <div>
-                            <label for="filter-location" class="block text-sm font-medium text-gray-300">Filter by Location</label>
-                            <input type="text" id="filter-location" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter exact location...">
+                            <label for="filter-location" class="block text-sm font-medium text-gray-300">Filter by
+                                Location</label>
+                            <input type="text" id="filter-location"
+                                class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="Enter exact location...">
                         </div>
                         <div>
-                            <label for="filter-category" class="block text-sm font-medium text-gray-300">Filter by Category</label>
-                            <select id="filter-category" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
+                            <label for="filter-category" class="block text-sm font-medium text-gray-300">Filter by
+                                Category</label>
+                            <select id="filter-category"
+                                class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm p-2 text-white focus:ring-indigo-500 focus:border-indigo-500">
                                 <option value="all">All Categories</option>
                                 <option>Science</option>
                                 <option>Environment</option>
@@ -121,7 +152,8 @@
                             </select>
                         </div>
                         <div class="flex space-x-2">
-                            <button id="reset-button" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200 ease-in-out">
+                            <button id="reset-button"
+                                class="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200 ease-in-out">
                                 Reset
                             </button>
                         </div>
@@ -133,7 +165,7 @@
             <!-- Column 2: Timeline -->
             <div class="md:col-span-2">
                 <h2 class="text-2xl font-semibold mb-4">Prediction Timeline</h2>
-                
+
                 <div id="timeline-loading" class="text-center text-gray-400">
                     <p>Loading predictions...</p>
                 </div>
@@ -152,18 +184,18 @@
     <script type="module">
         // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { 
-            getAuth, 
-            signInAnonymously, 
-            signInWithCustomToken, 
-            onAuthStateChanged 
+        import {
+            getAuth,
+            signInAnonymously,
+            signInWithCustomToken,
+            onAuthStateChanged
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { 
-            getFirestore, 
-            collection, 
-            addDoc, 
-            query, 
-            where, 
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            query,
+            where,
             onSnapshot,
             setLogLevel
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -183,7 +215,7 @@
         const formMessage = document.getElementById('form-message');
         const timelineContainer = document.getElementById('timeline-container');
         const timelineLoading = document.getElementById('timeline-loading');
-        
+
         const filterName = document.getElementById('filter-name');
         const filterLocation = document.getElementById('filter-location');
         const filterCategory = document.getElementById('filter-category');
@@ -207,7 +239,7 @@
                     console.log("User is authenticated:", user.uid);
                     userId = user.uid;
                     // User is signed in, now we can load data.
-                    setupTimelineListener(); 
+                    setupTimelineListener();
                 } else {
                     console.log("User is not authenticated, attempting sign-in...");
                     try {
@@ -240,7 +272,7 @@
 
             submitButton.disabled = true;
             submitButton.textContent = "Submitting...";
-            
+
             try {
                 const formData = new FormData(predictionForm);
                 const newPrediction = {
@@ -332,7 +364,7 @@
          */
         function renderPredictions(predictions) {
             timelineContainer.innerHTML = ''; // Clear existing timeline
-            
+
             if (predictions.length === 0) {
                 timelineContainer.innerHTML = `<p class="text-gray-400 text-center">No predictions found matching your filters.</p>`;
                 return;
@@ -408,7 +440,7 @@
          */
         function escapeHTML(str) {
             if (!str) return '';
-            return str.replace(/[&<>"']/g, function(m) {
+            return str.replace(/[&<>"']/g, function (m) {
                 return {
                     '&': '&amp;',
                     '<': '&lt;',
@@ -434,4 +466,5 @@
 
     </script>
 </body>
+
 </html>
