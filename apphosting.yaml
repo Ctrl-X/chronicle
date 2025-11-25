@@ -1,6 +1,7 @@
-runConfig:
-  cpu: 1
-  memoryMiB: 512
-  minInstances: 0
-  maxInstances: 100
-  concurrency: 80
+runtime: nodejs22
+build:
+  commands:
+    - npm install
+    - npm run build
+run:
+  command: npm start

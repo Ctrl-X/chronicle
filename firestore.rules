@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow users to read and write their own profile
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Allow authenticated users to read other users' profiles (for social features)
+    // but only write their own (covered above, but explicit is good)
+    // Actually, for now, let's keep it simple:
+    // Users can read any user profile (needed for recipes displaying author name)
+    // Users can only write their own profile
+    
+    // Recipes collection (future proofing)
+    match /predictions/{predictionId} {
+      allow read: if true; // Public read access
+      allow write: if request.auth != null; // Only authenticated users can create/edit
+    }
+  }
+}
